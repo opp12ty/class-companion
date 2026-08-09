@@ -852,7 +852,7 @@ async function sendMessage(){
       })
     });
     const data = await response.json();
-    if(!response.ok){ throw new Error(data.error || 'Server error'); }
+    if(!response.ok){ throw new Error((data && data.error) ? data.error : ('HTTP ' + response.status)); }
     const reply = (data.reply || "Sorry, I couldn't process that — try asking again.").trim();
 
     state.chatHistory[subjectId].push({role:'tutor', text:reply});
@@ -865,7 +865,7 @@ async function sendMessage(){
     }
     await saveProgress();
   }catch(e){
-    state.chatHistory[subjectId].push({role:'tutor', text:"Something went wrong reaching the tutor. Please check your connection and try again."});
+    state.chatHistory[subjectId].push({role:'tutor', text:"DEBUG ERROR: " + (e && e.message ? e.message : String(e))});
   }
 
   document.getElementById('sendBtn').disabled = false;
