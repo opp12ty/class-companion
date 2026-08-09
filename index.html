@@ -865,7 +865,7 @@ async function sendMessage(){
     }
     await saveProgress();
   }catch(e){
-    state.chatHistory[subjectId].push({role:'tutor', text:"DEBUG ERROR: " + (e && e.message ? e.message : String(e))});
+    state.chatHistory[subjectId].push({role:'tutor', text:"Something went wrong reaching the tutor. Please check your connection and try again."});
   }
 
   document.getElementById('sendBtn').disabled = false;
