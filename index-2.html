@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class Companion — Junior & Senior Secondary</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Work+Sans:wght@400;500;600;700&display=swap');
+
+:root{
+  --paper:#FAF3E4;
+  --paper-line:#E4D9BE;
+  --board:#1E3D2F;
+  --board-dark:#12261C;
+  --chalk:#F7F5EF;
+  --ink:#20241F;
+  --science:#2E6F9E;
+  --science-dark:#1F4D6E;
+  --art:#E08A1E;
+  --art-dark:#B5690E;
+  --commercial:#A13D3D;
+  --commercial-dark:#7C2C2C;
+  --core:#5C4A9E;
+  --core-dark:#453576;
+  --junior:#2F8F72;
+  --junior-dark:#1F6650;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:'Work Sans',sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  min-height:100vh;
+}
+.hidden{display:none !important;}
+
+/* ---------- HEADER ---------- */
+.board-header{
+  background:linear-gradient(180deg,var(--board) 0%,var(--board-dark) 100%);
+  color:var(--chalk);
+  padding:22px 20px 26px;
+  text-align:center;
+  position:relative;
+  box-shadow:0 4px 0 rgba(0,0,0,0.15);
+}
+.board-header h1{
+  font-family:'Baloo 2',sans-serif;
+  font-size:clamp(24px,6vw,34px);
+  margin:0;
+  letter-spacing:0.5px;
+  text-shadow:0 2px 0 rgba(0,0,0,0.25);
+}
+.chalk-underline{
+  width:120px;
+  height:10px;
+  margin:6px auto 8px;
+  opacity:0.85;
+}
+.board-header p{
+  margin:0;
+  font-size:13px;
+  opacity:0.8;
+  font-weight:500;
+  letter-spacing:0.3px;
+}
+.back-btn{
+  position:absolute;
+  left:14px;
+  top:20px;
+  background:rgba(255,255,255,0.12);
+  border:none;
+  color:var(--chalk);
+  font-family:'Work Sans',sans-serif;
+  font-weight:600;
+  font-size:13px;
+  padding:7px 12px;
+  border-radius:20px;
+  cursor:pointer;
+}
+.back-btn:active{transform:scale(0.96);}
+
+/* ---------- CONTAINER ---------- */
+.wrap{
+  max-width:520px;
+  margin:0 auto;
+  padding:18px 16px 60px;
+}
+
+/* ---------- ONBOARDING CARD ---------- */
+.card{
+  background:var(--chalk);
+  border-radius:14px;
+  padding:22px 20px;
+  box-shadow:0 3px 0 var(--paper-line), 0 6px 16px rgba(0,0,0,0.06);
+  border:1px solid var(--paper-line);
+}
+.card h2{
+  font-family:'Baloo 2',sans-serif;
+  font-size:20px;
+  margin:0 0 4px;
+}
+.card .sub{
+  font-size:13px;
+  color:#6b6455;
+  margin:0 0 18px;
+}
+label{
+  display:block;
+  font-size:12px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.6px;
+  color:#8a8271;
+  margin:14px 0 6px;
+}
+input[type="text"]{
+  width:100%;
+  padding:11px 13px;
+  border-radius:9px;
+  border:1.5px solid var(--paper-line);
+  font-family:'Work Sans',sans-serif;
+  font-size:15px;
+  background:#fff;
+}
+input[type="text"]:focus{outline:2px solid var(--science); outline-offset:1px;}
+
+.dept-picker{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:8px;
+  margin-top:6px;
+}
+.dept-tab{
+  border:none;
+  border-radius:10px;
+  padding:14px 6px;
+  font-family:'Baloo 2',sans-serif;
+  font-weight:600;
+  font-size:13px;
+  color:#fff;
+  cursor:pointer;
+  opacity:0.55;
+  transform:translateY(0);
+  transition:opacity .15s, transform .15s;
+}
+.dept-tab.science{background:var(--science);}
+.dept-tab.art{background:var(--art);}
+.dept-tab.commercial{background:var(--commercial);}
+.dept-tab.junior{background:var(--junior);}
+.dept-tab.senior{background:var(--core);}
+.dept-tab.selected{opacity:1; transform:translateY(-3px); box-shadow:0 4px 0 rgba(0,0,0,0.18);}
+
+.level-picker{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:6px;
+}
+.level-picker .dept-tab{padding:16px 8px; font-size:13.5px;}
+
+.primary-btn{
+  width:100%;
+  margin-top:22px;
+  padding:14px;
+  border:none;
+  border-radius:10px;
+  background:var(--ink);
+  color:var(--chalk);
+  font-family:'Baloo 2',sans-serif;
+  font-weight:600;
+  font-size:16px;
+  cursor:pointer;
+}
+.primary-btn:active{transform:scale(0.98);}
+.primary-btn:disabled{opacity:0.4;}
+
+/* ---------- DEPT NAV (main app) ---------- */
+.dept-nav{
+  display:flex;
+  gap:6px;
+  margin-bottom:16px;
+}
+.dept-nav-tab{
+  flex:1;
+  border:none;
+  padding:11px 4px 9px;
+  font-family:'Baloo 2',sans-serif;
+  font-weight:600;
+  font-size:12.5px;
+  color:#fff;
+  cursor:pointer;
+  border-radius:8px 8px 0 0;
+  opacity:0.5;
+  position:relative;
+  top:4px;
+}
+.dept-nav-tab.active{opacity:1; top:0; box-shadow:0 -3px 0 rgba(0,0,0,0.12) inset;}
+.dept-nav-tab.science{background:var(--science);}
+.dept-nav-tab.art{background:var(--art);}
+.dept-nav-tab.commercial{background:var(--commercial);}
+.dept-nav-tab.junior{background:var(--junior);}
+
+.student-greet{
+  font-size:13px;
+  color:#6b6455;
+  margin:0 0 14px;
+  font-weight:500;
+}
+.student-greet b{color:var(--ink);}
+
+.core-strip{
+  font-size:11.5px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+  color:#8a8271;
+  margin:22px 0 8px 2px;
+}
+
+/* ---------- SUBJECT GRID ---------- */
+.subject-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.subject-card{
+  background:var(--chalk);
+  border-radius:12px;
+  padding:16px 12px;
+  border:1px solid var(--paper-line);
+  border-left:5px solid var(--dept-color,var(--science));
+  cursor:pointer;
+  text-align:left;
+  box-shadow:0 2px 0 var(--paper-line);
+}
+.subject-card:active{transform:scale(0.97);}
+.subject-card .icon{font-size:22px;}
+.subject-card .name{
+  font-family:'Baloo 2',sans-serif;
+  font-weight:600;
+  font-size:14.5px;
+  margin-top:6px;
+  display:block;
+}
+.subject-card .streak{
+  font-size:11px;
+  color:#8a8271;
+  margin-top:4px;
+  display:block;
+}
+
+/* ---------- CHAT SCREEN ---------- */
+.chat-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px;
+}
+.chat-header .icon-badge{
+  width:38px;height:38px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;color:#fff;
+  background:var(--dept-color,var(--science));
+  flex-shrink:0;
+}
+.chat-header h2{
+  font-family:'Baloo 2',sans-serif;
+  font-size:19px;
+  margin:0;
+}
+.chat-header .dept-label{
+  font-size:11.5px;
+  color:#8a8271;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:0.4px;
+}
+
+.mode-row{
+  display:flex;
+  gap:8px;
+  margin-bottom:12px;
+}
+.mode-btn{
+  flex:1;
+  padding:9px 6px;
+  border-radius:8px;
+  border:1.5px solid var(--paper-line);
+  background:#fff;
+  font-family:'Work Sans',sans-serif;
+  font-weight:600;
+  font-size:12.5px;
+  cursor:pointer;
+  color:var(--ink);
+}
+.mode-btn.active{
+  background:var(--dept-color,var(--science));
+  border-color:var(--dept-color,var(--science));
+  color:#fff;
+}
+
+.notebook{
+  background:
+    repeating-linear-gradient(var(--chalk),var(--chalk) 31px, #E7DFC8 32px),
+    linear-gradient(90deg, transparent 34px, rgba(161,61,61,0.18) 34px, rgba(161,61,61,0.18) 35px, transparent 35px);
+  background-color:var(--chalk);
+  border:1px solid var(--paper-line);
+  border-radius:12px;
+  min-height:340px;
+  max-height:52vh;
+  overflow-y:auto;
+  padding:14px 14px 14px 40px;
+}
+.msg{
+  margin-bottom:14px;
+  max-width:88%;
+  animation:pop .18s ease;
+}
+@keyframes pop{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+.msg.student{
+  margin-left:auto;
+}
+.msg .bubble{
+  padding:10px 13px;
+  border-radius:12px;
+  font-size:14px;
+  line-height:1.45;
+  white-space:pre-wrap;
+}
+.msg.student .bubble{
+  background:#FFE79A;
+  border-radius:12px 12px 3px 12px;
+  transform:rotate(-0.6deg);
+  box-shadow:1px 2px 4px rgba(0,0,0,0.08);
+}
+.msg.tutor .bubble{
+  background:var(--board);
+  color:var(--chalk);
+  border-radius:12px 12px 12px 3px;
+}
+.msg.tutor .who{
+  font-size:10.5px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.4px;
+  color:#8a8271;
+  margin-bottom:3px;
+}
+.msg.typing .bubble{
+  background:var(--board);
+  color:var(--chalk);
+  font-style:italic;
+  opacity:0.8;
+}
+
+.chat-input-row{
+  display:flex;
+  gap:8px;
+  margin-top:10px;
+}
+.chat-input-row input{
+  flex:1;
+  padding:12px 14px;
+  border-radius:22px;
+  border:1.5px solid var(--paper-line);
+  font-family:'Work Sans',sans-serif;
+  font-size:14.5px;
+}
+.send-btn{
+  width:46px;height:46px;
+  border-radius:50%;
+  border:none;
+  background:var(--dept-color,var(--science));
+  color:#fff;
+  font-size:18px;
+  cursor:pointer;
+  flex-shrink:0;
+}
+.send-btn:disabled{opacity:0.4;}
+
+.quick-chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin:10px 0 4px;
+}
+.chip{
+  border:1.5px solid var(--paper-line);
+  background:#fff;
+  border-radius:16px;
+  padding:6px 12px;
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+  color:var(--ink);
+}
+
+/* ---------- PROGRESS ---------- */
+.progress-strip{
+  display:flex;
+  gap:10px;
+  margin-bottom:16px;
+}
+.progress-pill{
+  flex:1;
+  background:var(--chalk);
+  border:1px solid var(--paper-line);
+  border-radius:10px;
+  padding:10px 8px;
+  text-align:center;
+}
+.progress-pill .num{
+  font-family:'Baloo 2',sans-serif;
+  font-size:20px;
+  display:block;
+  color:var(--ink);
+}
+.progress-pill .lbl{
+  font-size:10.5px;
+  color:#8a8271;
+  font-weight:600;
+  text-transform:uppercase;
+}
+
+.integrity-note{
+  font-size:11px;
+  color:#8a8271;
+  text-align:center;
+  margin-top:16px;
+  line-height:1.5;
+  padding:0 10px;
+}
+</style>
+</head>
+<body>
+
+<div class="board-header">
+  <button class="back-btn hidden" id="backBtn" onclick="goBack()">‹ Back</button>
+  <h1 id="headerTitle">Class Companion</h1>
+  <svg class="chalk-underline" viewBox="0 0 120 10"><path d="M2 6 Q 20 2, 40 6 T 80 6 T 118 5" stroke="#F7F5EF" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+  <p id="headerSub">Junior & Senior Secondary — study together, chat with your subject tutor</p>
+</div>
+
+<div class="wrap">
+
+  <!-- ONBOARDING -->
+  <div id="onboardScreen" class="card">
+    <h2>Let's set you up</h2>
+    <p class="sub">Takes 10 seconds. No password needed.</p>
+
+    <label for="nameInput">Your first name</label>
+    <input type="text" id="nameInput" placeholder="e.g. Tolu">
+
+    <label for="classInput">Class</label>
+    <input type="text" id="classInput" placeholder="e.g. JSS2 or SS2">
+
+    <label>Level</label>
+    <div class="level-picker">
+      <button class="dept-tab junior level-tab" data-level="junior" onclick="pickLevel('junior')">Junior<br>(JSS 1–3)</button>
+      <button class="dept-tab senior level-tab" data-level="senior" onclick="pickLevel('senior')">Senior<br>(SS 1–3)</button>
+    </div>
+
+    <div id="deptPickerWrap">
+      <label>Department</label>
+      <div class="dept-picker">
+        <button class="dept-tab science" data-dept="science" onclick="pickDept('science')">Science</button>
+        <button class="dept-tab art" data-dept="art" onclick="pickDept('art')">Art</button>
+        <button class="dept-tab commercial" data-dept="commercial" onclick="pickDept('commercial')">Commercial</button>
+      </div>
+    </div>
+
+    <button class="primary-btn" id="enterBtn" onclick="enterApp()">Start Studying</button>
+  </div>
+
+  <!-- HOME (department + subject grid) -->
+  <div id="homeScreen" class="hidden">
+    <p class="student-greet">Welcome back, <b id="greetName"></b> · <span id="greetClass"></span></p>
+
+    <div class="progress-strip">
+      <div class="progress-pill"><span class="num" id="statTopics">0</span><span class="lbl">Topics</span></div>
+      <div class="progress-pill"><span class="num" id="statStreak">0</span><span class="lbl">Day streak</span></div>
+      <div class="progress-pill"><span class="num" id="statQuiz">0</span><span class="lbl">Quiz score</span></div>
+    </div>
+
+    <div class="dept-nav" id="deptNavWrap">
+      <button class="dept-nav-tab science" data-dept="science" onclick="switchDept('science')">Science</button>
+      <button class="dept-nav-tab art" data-dept="art" onclick="switchDept('art')">Art</button>
+      <button class="dept-nav-tab commercial" data-dept="commercial" onclick="switchDept('commercial')">Commercial</button>
+    </div>
+
+    <div class="core-strip hidden" id="juniorLabel">Junior Secondary — All Subjects</div>
+
+    <div id="subjectGridWrap"></div>
+
+    <div id="coreSection">
+      <div class="core-strip">Core subjects (everyone)</div>
+      <div class="subject-grid" id="coreGrid"></div>
+    </div>
+
+    <p class="integrity-note">Class Companion helps you understand your own work — it explains, guides, and quizzes you, but it will never write a finished assignment or exam answer for you to submit.</p>
+  </div>
+
+  <!-- CHAT SCREEN -->
+  <div id="chatScreen" class="hidden">
+    <div class="chat-header">
+      <div class="icon-badge" id="chatIcon">📘</div>
+      <div>
+        <h2 id="chatSubjectName">Subject</h2>
+        <span class="dept-label" id="chatDeptLabel">Department</span>
+      </div>
+    </div>
+
+    <div class="mode-row">
+      <button class="mode-btn active" id="modeAsk" onclick="setMode('ask')">Ask & Learn</button>
+      <button class="mode-btn" id="modeQuiz" onclick="setMode('quiz')">Practice Quiz</button>
+    </div>
+
+    <div class="notebook" id="notebook"></div>
+
+    <div class="quick-chips" id="quickChips"></div>
+
+    <div class="chat-input-row">
+      <input type="text" id="chatInput" placeholder="Type your question..." onkeydown="if(event.key==='Enter')sendMessage()">
+      <button class="send-btn" id="sendBtn" onclick="sendMessage()">➤</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ---------------- DATA ---------------- */
+const DEPARTMENTS = {
+  science: {
+    label:'Science', color:'var(--science)', colorHex:'#2E6F9E',
+    subjects:[
+      {id:'physics', name:'Physics', icon:'⚛️'},
+      {id:'chemistry', name:'Chemistry', icon:'🧪'},
+      {id:'biology', name:'Biology', icon:'🧬'},
+      {id:'further_maths', name:'Further Maths', icon:'📐'},
+      {id:'agric', name:'Agricultural Science', icon:'🌾'},
+      {id:'ict', name:'Computer Studies / ICT', icon:'💻'},
+    ]
+  },
+  art: {
+    label:'Art', color:'var(--art)', colorHex:'#E08A1E',
+    subjects:[
+      {id:'literature', name:'Literature in English', icon:'📖'},
+      {id:'government', name:'Government', icon:'🏛️'},
+      {id:'crs', name:'CRS / IRS', icon:'🕊️'},
+      {id:'history', name:'History', icon:'🏺'},
+      {id:'fine_art', name:'Fine Art', icon:'🎨'},
+      {id:'french', name:'French', icon:'🇫🇷'},
+    ]
+  },
+  commercial: {
+    label:'Commercial', color:'var(--commercial)', colorHex:'#A13D3D',
+    subjects:[
+      {id:'accounting', name:'Financial Accounting', icon:'🧾'},
+      {id:'commerce', name:'Commerce', icon:'🛒'},
+      {id:'economics', name:'Economics', icon:'📊'},
+      {id:'office_practice', name:'Office Practice', icon:'🗂️'},
+      {id:'marketing', name:'Marketing', icon:'📣'},
+    ]
+  }
+};
+const CORE_SUBJECTS = [
+  {id:'english', name:'English Language', icon:'✍️'},
+  {id:'mathematics', name:'Mathematics', icon:'➗'},
+  {id:'civic', name:'Civic Education', icon:'🇳🇬'},
+];
+
+const LEVELS = {
+  junior: {
+    label:'Junior Secondary', colorHex:'#2F8F72',
+    subjects:[
+      {id:'jss_english', name:'English Language', icon:'✍️'},
+      {id:'jss_maths', name:'Mathematics', icon:'➗'},
+      {id:'jss_basic_science', name:'Basic Science', icon:'🔬'},
+      {id:'jss_basic_tech', name:'Basic Technology', icon:'🛠️'},
+      {id:'jss_social_studies', name:'Social Studies', icon:'🌍'},
+      {id:'jss_civic', name:'Civic Education', icon:'🇳🇬'},
+      {id:'jss_crs', name:'CRS / IRS', icon:'🕊️'},
+      {id:'jss_business', name:'Business Studies', icon:'💼'},
+      {id:'jss_agric', name:'Agricultural Science', icon:'🌾'},
+      {id:'jss_home_econ', name:'Home Economics', icon:'🍲'},
+      {id:'jss_ict', name:'Computer Studies / ICT', icon:'💻'},
+      {id:'jss_french', name:'French', icon:'🇫🇷'},
+      {id:'jss_cca', name:'Cultural & Creative Arts', icon:'🎭'},
+      {id:'jss_phe', name:'Physical & Health Education', icon:'🏃'},
+      {id:'jss_language', name:'Nigerian Language', icon:'🗣️'},
+    ]
+  }
+};
+
+let state = {
+  name:'', klass:'', level:'senior', dept:'science',
+  currentDept:'science', currentSubject:null, mode:'ask',
+  chatHistory:{}, // subjectId -> [{role, text}]
+  progress:{ topics:0, streak:0, quizScore:0 }
+};
+
+/* ---------------- ONBOARDING ---------------- */
+function pickDept(d){
+  document.querySelectorAll('.dept-tab[data-dept]').forEach(b=>b.classList.remove('selected'));
+  document.querySelector('.dept-tab[data-dept="'+d+'"]').classList.add('selected');
+  state.dept = d;
+}
+function pickLevel(level){
+  state.level = level;
+  document.querySelectorAll('.level-tab').forEach(b=>b.classList.remove('selected'));
+  document.querySelector('.level-tab[data-level="'+level+'"]').classList.add('selected');
+  const deptWrap = document.getElementById('deptPickerWrap');
+  if(level==='junior'){ deptWrap.classList.add('hidden'); }
+  else { deptWrap.classList.remove('hidden'); }
+}
+pickDept('science');
+pickLevel('senior');
+
+async function enterApp(){
+  const name = document.getElementById('nameInput').value.trim();
+  const klass = document.getElementById('classInput').value.trim();
+  if(!name || !klass){ alert('Please enter your name and class.'); return; }
+  state.name = name; state.klass = klass; state.currentDept = state.dept;
+
+  await loadProgress();
+
+  document.getElementById('onboardScreen').classList.add('hidden');
+  document.getElementById('homeScreen').classList.remove('hidden');
+  document.getElementById('backBtn').classList.add('hidden');
+  document.getElementById('headerTitle').textContent = 'Class Companion';
+  document.getElementById('headerSub').textContent = 'Junior & Senior Secondary — study together, chat with your subject tutor';
+  document.getElementById('greetName').textContent = name;
+  document.getElementById('greetClass').textContent = klass;
+  renderHome();
+  renderStats();
+}
+
+/* ---------------- PERSISTENCE ---------------- */
+function storageKey(){ return 'progress:' + state.name.toLowerCase() + ':' + state.klass.toLowerCase(); }
+
+async function loadProgress(){
+  try{
+    const res = await window.storage.get(storageKey());
+    if(res && res.value){
+      const data = JSON.parse(res.value);
+      state.progress = data.progress || state.progress;
+      state.chatHistory = data.chatHistory || {};
+    }
+  }catch(e){ /* no saved progress yet */ }
+}
+async function saveProgress(){
+  try{
+    await window.storage.set(storageKey(), JSON.stringify({progress: state.progress, chatHistory: state.chatHistory}));
+  }catch(e){ console.error('save failed', e); }
+}
+function renderStats(){
+  document.getElementById('statTopics').textContent = state.progress.topics;
+  document.getElementById('statStreak').textContent = state.progress.streak;
+  document.getElementById('statQuiz').textContent = state.progress.quizScore + '%';
+}
+
+/* ---------------- HOME / DEPARTMENT NAV ---------------- */
+function renderHome(){
+  const deptNavWrap = document.getElementById('deptNavWrap');
+  const coreSection = document.getElementById('coreSection');
+  const juniorLabel = document.getElementById('juniorLabel');
+  if(state.level==='junior'){
+    deptNavWrap.classList.add('hidden');
+    coreSection.classList.add('hidden');
+    juniorLabel.classList.remove('hidden');
+    renderJuniorGrid();
+  } else {
+    deptNavWrap.classList.remove('hidden');
+    coreSection.classList.remove('hidden');
+    juniorLabel.classList.add('hidden');
+    renderCoreGrid();
+    switchDept(state.currentDept);
+  }
+}
+function renderJuniorGrid(){
+  const level = LEVELS.junior;
+  const wrap = document.getElementById('subjectGridWrap');
+  wrap.innerHTML = '<div class="subject-grid" id="deptGrid"></div>';
+  const grid = document.getElementById('deptGrid');
+  level.subjects.forEach(s=>{
+    grid.appendChild(subjectCard(s, level.colorHex, 'junior', level.label));
+  });
+}
+function switchDept(d){
+  state.currentDept = d;
+  document.querySelectorAll('.dept-nav-tab').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.dept-nav-tab[data-dept="'+d+'"]').classList.add('active');
+  renderSubjectGrid(d);
+}
+function renderSubjectGrid(d){
+  const dept = DEPARTMENTS[d];
+  const wrap = document.getElementById('subjectGridWrap');
+  wrap.innerHTML = '<div class="subject-grid" id="deptGrid"></div>';
+  const grid = document.getElementById('deptGrid');
+  dept.subjects.forEach(s=>{
+    grid.appendChild(subjectCard(s, dept.colorHex, d, dept.label));
+  });
+}
+function renderCoreGrid(){
+  const grid = document.getElementById('coreGrid');
+  grid.innerHTML = '';
+  CORE_SUBJECTS.forEach(s=>{
+    grid.appendChild(subjectCard(s, '#5C4A9E', 'core', 'Core Subject'));
+  });
+}
+function subjectCard(s, colorHex, deptKey, deptLabel){
+  const card = document.createElement('button');
+  card.className = 'subject-card';
+  card.style.setProperty('--dept-color', colorHex);
+  const msgCount = (state.chatHistory[s.id] || []).filter(m=>m.role==='tutor').length;
+  card.innerHTML = '<span class="icon">'+s.icon+'</span><span class="name">'+s.name+'</span><span class="streak">'+(msgCount>0? msgCount+' replies so far':'Tap to start')+'</span>';
+  card.onclick = ()=> openChat(s, colorHex, deptKey, deptLabel);
+  return card;
+}
+
+/* ---------------- CHAT SCREEN ---------------- */
+function openChat(subject, colorHex, deptKey, deptLabel){
+  state.currentSubject = subject;
+  state.currentSubjectColor = colorHex;
+  state.currentSubjectDeptLabel = deptLabel;
+  state.mode = 'ask';
+
+  document.getElementById('homeScreen').classList.add('hidden');
+  document.getElementById('chatScreen').classList.remove('hidden');
+  document.getElementById('backBtn').classList.remove('hidden');
+  document.getElementById('headerTitle').textContent = subject.name;
+  document.getElementById('headerSub').textContent = deptLabel + ' tutor';
+
+  document.getElementById('chatIcon').textContent = subject.icon;
+  document.getElementById('chatIcon').style.background = colorHex;
+  document.getElementById('chatSubjectName').textContent = subject.name;
+  document.getElementById('chatDeptLabel').textContent = deptLabel;
+
+  document.querySelectorAll('.mode-btn').forEach(b=>{ b.classList.remove('active'); b.style.setProperty('--dept-color', colorHex); });
+  document.getElementById('modeAsk').classList.add('active');
+  document.getElementById('modeAsk').style.background = colorHex;
+  document.getElementById('modeAsk').style.borderColor = colorHex;
+  document.getElementById('modeQuiz').style.background = '';
+  document.getElementById('modeQuiz').style.borderColor = '';
+
+  document.getElementById('sendBtn').style.background = colorHex;
+
+  if(!state.chatHistory[subject.id]){ state.chatHistory[subject.id] = []; }
+  renderNotebook();
+  renderQuickChips();
+}
+function goBack(){
+  document.getElementById('chatScreen').classList.add('hidden');
+  document.getElementById('homeScreen').classList.remove('hidden');
+  document.getElementById('backBtn').classList.add('hidden');
+  document.getElementById('headerTitle').textContent = 'Class Companion';
+  document.getElementById('headerSub').textContent = 'Junior & Senior Secondary — study together, chat with your subject tutor';
+  renderHome();
+  renderStats();
+}
+function setMode(m){
+  state.mode = m;
+  const color = state.currentSubjectColor;
+  document.getElementById('modeAsk').classList.toggle('active', m==='ask');
+  document.getElementById('modeQuiz').classList.toggle('active', m==='quiz');
+  document.getElementById('modeAsk').style.background = m==='ask'? color:'';
+  document.getElementById('modeAsk').style.borderColor = m==='ask'? color:'';
+  document.getElementById('modeQuiz').style.background = m==='quiz'? color:'';
+  document.getElementById('modeQuiz').style.borderColor = m==='quiz'? color:'';
+  renderQuickChips();
+}
+function renderQuickChips(){
+  const wrap = document.getElementById('quickChips');
+  wrap.innerHTML = '';
+  const chips = state.mode==='ask'
+    ? ['Explain a topic simply', 'Give me a real-life example', 'What should I revise next?', "I don't understand this"]
+    : ['Give me 5 practice questions', 'Test me on last topic', 'Explain why my answer was wrong'];
+  chips.forEach(c=>{
+    const chip = document.createElement('button');
+    chip.className='chip';
+    chip.textContent = c;
+    chip.onclick = ()=>{ document.getElementById('chatInput').value = c; sendMessage(); };
+    wrap.appendChild(chip);
+  });
+}
+function renderNotebook(){
+  const nb = document.getElementById('notebook');
+  const history = state.chatHistory[state.currentSubject.id] || [];
+  if(history.length===0){
+    nb.innerHTML = '<div class="msg tutor"><div class="who">'+state.currentSubject.name+' Tutor</div><div class="bubble">Hi '+state.name+'! I\'m your '+state.currentSubject.name+' tutor. Ask me to explain a topic, walk through an example, or quiz you — I\'m here to help you understand it yourself, not do it for you. What are we working on today?</div></div>';
+    return;
+  }
+  nb.innerHTML = history.map(m=>{
+    if(m.role==='student'){
+      return '<div class="msg student"><div class="bubble">'+escapeHtml(m.text)+'</div></div>';
+    } else {
+      return '<div class="msg tutor"><div class="who">'+state.currentSubject.name+' Tutor</div><div class="bubble">'+escapeHtml(m.text)+'</div></div>';
+    }
+  }).join('');
+  nb.scrollTop = nb.scrollHeight;
+}
+function escapeHtml(t){
+  const d = document.createElement('div'); d.textContent = t; return d.innerHTML;
+}
+
+/* ---------------- AI TUTOR (Anthropic API) ---------------- */
+function buildSystemPrompt(subject, deptLabel, mode){
+  return `You are a warm, encouraging Nigerian secondary school tutor for the subject "${subject.name}" (${deptLabel} department), talking with a student named ${state.name} in class ${state.klass}.
+
+STRICT RULES — never break these:
+- NEVER write a finished, submittable assignment, essay, project, or exam answer for the student to hand in as their own work.
+- Instead: explain concepts clearly, give worked examples with reasoning shown, ask guiding questions, and help the student think it through themselves.
+- If asked to "do" an assignment/homework/exam directly, kindly redirect: explain the concept and guide them to produce their own answer instead.
+- Keep answers appropriately short for a mobile chat (roughly 80-180 words) unless the student asks for more detail.
+- Use simple, encouraging language suited to a Nigerian secondary school student. You can reference WAEC/NECO/JAMB style where relevant.
+- Stay strictly within the subject "${subject.name}". If asked something unrelated, gently redirect back to the subject.
+
+Current mode: ${mode==='quiz' ? 'PRACTICE QUIZ MODE — when asked, generate practice questions one or a few at a time (not a huge dump), wait conceptually for the student to attempt them, and when they answer, tell them if they are right or wrong AND explain the reasoning. Never just give the final answer without the reasoning.' : 'ASK & LEARN MODE — focus on clear explanations, examples, and check understanding.'}`;
+}
+
+async function sendMessage(){
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if(!text) return;
+  const subjectId = state.currentSubject.id;
+  state.chatHistory[subjectId].push({role:'student', text});
+  input.value='';
+  renderNotebook();
+  document.getElementById('sendBtn').disabled = true;
+
+  // typing indicator
+  const nb = document.getElementById('notebook');
+  const typingEl = document.createElement('div');
+  typingEl.className='msg tutor typing';
+  typingEl.innerHTML = '<div class="who">'+state.currentSubject.name+' Tutor</div><div class="bubble">thinking…</div>';
+  nb.appendChild(typingEl);
+  nb.scrollTop = nb.scrollHeight;
+
+  try{
+    const history = state.chatHistory[subjectId].slice(-14).map(m=>({
+      role: m.role==='student' ? 'user' : 'assistant',
+      content: m.text
+    }));
+
+    const response = await fetch("/.netlify/functions/tutor-chat", {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify({
+        system: buildSystemPrompt(state.currentSubject, state.currentSubjectDeptLabel, state.mode),
+        messages: history
+      })
+    });
+    const data = await response.json();
+    if(!response.ok){ throw new Error(data.error || 'Server error'); }
+    const reply = (data.reply || "Sorry, I couldn't process that — try asking again.").trim();
+
+    state.chatHistory[subjectId].push({role:'tutor', text:reply});
+
+    // progress tracking
+    state.progress.topics += 1;
+    if(state.mode==='quiz'){
+      // light heuristic bump; real scoring would need structured Q&A
+      state.progress.quizScore = Math.min(100, state.progress.quizScore + 2);
+    }
+    await saveProgress();
+  }catch(e){
+    state.chatHistory[subjectId].push({role:'tutor', text:"Something went wrong reaching the tutor. Please check your connection and try again."});
+  }
+
+  document.getElementById('sendBtn').disabled = false;
+  renderNotebook();
+}
+</script>
+</body>
+</html>
